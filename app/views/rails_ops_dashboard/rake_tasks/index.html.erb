@@ -1,0 +1,78 @@
+<h1 class="text-2xl font-bold text-gray-800 mb-6">Rake Tasks</h1>
+
+<input type="text" id="rake-search" placeholder="Filter tasks..."
+       class="w-full px-4 py-2 mb-4 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+       oninput="filterTable('rake-search', 'rake-table')">
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+  <table id="rake-table" class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Task</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Action</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <% @rake_tasks.each_with_index do |task, i| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-3 text-sm font-mono text-gray-700"><%= task[:name] %></td>
+          <td class="px-6 py-3 text-sm text-gray-600"><%= task[:description] %></td>
+          <td class="px-6 py-3 text-right">
+            <form method="post" action="<%= execute_rake_tasks_path %>" id="rake-form-<%= i %>">
+              <input type="hidden" name="task_name" value="<%= task[:name] %>">
+              <button type="button"
+                      onclick="confirmAction('Execute <%= j(task[:name]) %>?', 'rake-form-<%= i %>')"
+                      class="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700">
+                Execute
+              </button>
+            </form>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<p class="text-xs text-gray-400 mt-2"><%= @rake_tasks.size %> tasks found</p>
+
+<% if params[:task_id].present? %>
+  <div id="task-status" class="mt-6 bg-white rounded-lg shadow p-4">
+    <p class="text-sm text-gray-600">
+      Task <span class="font-mono"><%= j(params[:task_id]) %></span>:
+      <span id="status-text" class="font-medium">running...</span>
+    </p>
+  </div>
+  <script>
+    (function() {
+      var taskId = '<%= j(params[:task_id]) %>';
+      var interval = setInterval(function() {
+        fetch('<%= status_rake_tasks_path %>?task_id=' + taskId, { credentials: 'same-origin' })
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            var el = document.getElementById('status-text');
+            if (data.status === 'completed') {
+              el.textContent = 'Completed';
+              el.className = 'font-medium text-green-600';
+              clearInterval(interval);
+            } else if (data.status === 'failed') {
+              el.textContent = 'Failed: ' + (data.error || 'unknown error');
+              el.className = 'font-medium text-red-600';
+              clearInterval(interval);
+            }
+          });
+      }, 2000);
+    })();
+  </script>
+<% end %>
+
+<script>
+  function filterTable(inputId, tableId) {
+    var query = document.getElementById(inputId).value.toLowerCase();
+    var rows = document.querySelectorAll('#' + tableId + ' tbody tr');
+    rows.forEach(function(row) {
+      var text = row.querySelector('td').textContent.toLowerCase();
+      row.style.display = text.includes(query) ? '' : 'none';
+    });
+  }
+</script>
