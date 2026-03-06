@@ -1,0 +1,25 @@
+# frozen_string_literal: true
+
+RailsOpsDashboard.configure do |config|
+  # Credentials for HTTP Basic Auth
+  config.username = ENV.fetch('OPS_DASHBOARD_USERNAME', 'admin')
+  config.password = ENV.fetch('OPS_DASHBOARD_PASSWORD', 'password')
+
+  # Environments where the dashboard is blocked (returns 404)
+  config.blocked_environments = %w[production]
+
+  # Seeds configuration
+  # config.seeds_path = 'app/services/database_update'
+  # config.seeds_base_class = 'DatabaseUpdate'
+  # config.seeds_executor = ->(klass) { klass.new.call }
+
+  # Rake tasks configuration
+  # config.rake_tasks_path = 'lib/tasks'
+
+  # Plugins
+  # config.plugin :workers,
+  #   development_only: true,
+  #   workers: [
+  #     { id: 'sidekiq', name: 'Sidekiq', command: 'bundle exec sidekiq' }
+  #   ]
+end
