@@ -95,6 +95,8 @@ Lists rake tasks defined in your configured `rake_tasks_path` directory. Built-i
 
 Displays a searchable table of all environment variables, plus metadata cards showing the Rails environment, hostname, Ruby version, Rails version, and process ID.
 
+In many teams, the DevOps team is responsible for creating and updating environment variables across all environments, while developers only have read access. Verifying whether a variable was actually set or changed meant going through the entire VPN, SSO, Kubernetes flow described above. In practice, we would ask DevOps to update a value, they would sometimes forget or delay it, and we had no quick way to confirm without tunneling into the pod. This screen exists so any developer can open the dashboard and immediately see the current state of all environment variables, without bothering anyone or navigating infrastructure tooling.
+
 ## Workers Plugin
 
 The workers plugin lets you start and stop system processes from the dashboard. It is disabled by default and must be explicitly enabled in the configuration.
