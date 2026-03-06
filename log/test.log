@@ -1,0 +1,77 @@
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:12:58 -0300
+  
+NameError (uninitialized constant RailsOpsDashboard::Engine):
+  
+config/routes.rb:3:in `<top (required)>'
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:12:58 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:12:58 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:12:58 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:12:58 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:12:58 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:12:58 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:12:58 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started DELETE "/ops/logout" for 127.0.0.1 at 2026-03-06 12:12:58 -0300
+  
+ActionController::RoutingError (No route matches [DELETE] "/ops/logout"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:13:33 -0300
+  
+ArgumentError (Invalid route name, already in use: 'root' 
+You may have defined two routes with the same name using the `:as` option, or you may be overriding a route already defined by a resource with the same naming. For the latter, you can restrict the routes created with `resources` as explained here: 
+https://guides.rubyonrails.org/routing.html#restricting-the-routes-created):
+  
+config/routes.rb:4:in `block in <top (required)>'
+config/routes.rb:3:in `<top (required)>'
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:13:33 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:13:33 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:13:33 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:13:33 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:13:33 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:13:33 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started GET "/ops" for 127.0.0.1 at 2026-03-06 12:13:33 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/ops"):
+  
+Started DELETE "/ops/logout" for 127.0.0.1 at 2026-03-06 12:13:33 -0300
+  
+ActionController::RoutingError (No route matches [DELETE] "/ops/logout"):
+  

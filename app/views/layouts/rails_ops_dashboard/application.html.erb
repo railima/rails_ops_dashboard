@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ops Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <% banner_color = case Rails.env
+     when 'development' then 'bg-green-600'
+     else 'bg-yellow-500'
+     end %>
+  <div class="<%= banner_color %> text-white text-center py-1 text-sm font-bold">
+    <%= Rails.env.upcase %>
+  </div>
+
+  <div class="flex min-h-screen">
+    <nav class="w-56 bg-white shadow-md p-6 flex flex-col">
+      <h1 class="text-lg font-bold text-gray-800 mb-8">Ops Dashboard</h1>
+      <ul class="space-y-1">
+        <% [
+          { path: rails_ops_dashboard.root_path, label: 'Dashboard' },
+          { path: rails_ops_dashboard.environment_path, label: 'Environment' },
+          { path: rails_ops_dashboard.seeds_path, label: 'Seeds' },
+          { path: rails_ops_dashboard.rake_tasks_path, label: 'Rake Tasks' }
+        ].each do |item| %>
+          <li>
+            <a href="<%= item[:path] %>"
+               class="block px-3 py-2 rounded-md text-sm <%= request.path == item[:path] ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50' %>">
+              <%= item[:label] %>
+            </a>
+          </li>
+        <% end %>
+        <% if RailsOpsDashboard.configuration.plugins.key?(:workers) %>
+          <li>
+            <a href="<%= rails_ops_dashboard.workers_path %>"
+               class="block px-3 py-2 rounded-md text-sm <%= request.path == rails_ops_dashboard.workers_path ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50' %>">
+              Workers
+            </a>
+          </li>
+        <% end %>
+      </ul>
+      <div class="mt-auto pt-6">
+        <button onclick="logout()" class="block w-full px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-50 text-left">
+          Logout
+        </button>
+      </div>
+    </nav>
+
+    <main class="flex-1 p-8">
+      <%= render 'rails_ops_dashboard/shared/flash_messages' %>
+      <%= yield %>
+    </main>
+  </div>
+
+  <%= render 'rails_ops_dashboard/shared/confirmation_modal' %>
+
+  <script>
+    function logout() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('DELETE', '<%= rails_ops_dashboard.logout_path %>', true);
+      xhr.setRequestHeader('Authorization', 'Basic ' + btoa('logout:logout'));
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          window.location.href = '<%= rails_ops_dashboard.root_path %>';
+        }
+      };
+      xhr.send();
+    }
+  </script>
+</body>
+</html>
