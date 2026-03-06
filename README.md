@@ -4,9 +4,11 @@ A lightweight operations dashboard for Rails applications. Run seeds, execute ra
 
 ## Why this gem?
 
-Most Rails dashboard gems focus on admin CRUD for models (Avo, Administrate, RailsAdmin, Motor Admin). None of them provide a simple developer operations panel for the tasks you actually do during development and staging: running seed scripts, checking environment variables, or kicking off rake tasks.
+This gem was born from a real pain point. In our team, running a simple rake task or seed script on staging required a full infrastructure odyssey: connect to the VPN, authenticate via AWS SSO, generate an EKS token with `aws eks get-token`, open the Kubernetes dashboard, find the right environment, locate the Rails pod, open a terminal session inside the container, and only then run the actual command. Six or seven steps just to execute `rake db:seed`.
 
-If you have ever SSH'd into a staging server just to run a seed, or opened a Rails console to check an environment variable, this gem gives you a web interface for those operations instead.
+We built an internal ops dashboard to skip all of that. Instead of tunneling through layers of infrastructure, any developer on the team could open a browser, authenticate with a simple password, and run the operation directly. After using it for a while, we realized this was a generic enough problem that other teams probably deal with the same friction, so we extracted it into this gem.
+
+Most Rails dashboard gems focus on admin CRUD for models (Avo, Administrate, RailsAdmin, Motor Admin). None of them provide a simple developer operations panel for the tasks you actually do during development and staging: running seed scripts, checking environment variables, or kicking off rake tasks. This gem fills that gap.
 
 ## Should I use this gem?
 
