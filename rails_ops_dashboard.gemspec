@@ -23,4 +23,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'concurrent-ruby', '~> 1.0'
   spec.add_dependency 'railties', '>= 7.0'
+
+  spec.add_development_dependency 'rspec-rails', '~> 6.0'
 end
