@@ -1,0 +1,89 @@
+<h1 class="text-2xl font-bold text-gray-800 mb-6">Environment Variables</h1>
+
+<div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+  <div class="bg-white rounded-lg shadow p-4">
+    <p class="text-xs text-gray-500">Rails Env</p>
+    <p class="text-sm font-bold text-gray-800 mt-1"><%= @metadata[:rails_env] %></p>
+  </div>
+  <div class="bg-white rounded-lg shadow p-4">
+    <p class="text-xs text-gray-500">Hostname</p>
+    <p class="text-sm font-bold text-gray-800 mt-1"><%= @metadata[:hostname] %></p>
+  </div>
+  <div class="bg-white rounded-lg shadow p-4">
+    <p class="text-xs text-gray-500">Ruby Version</p>
+    <p class="text-sm font-bold text-gray-800 mt-1"><%= @metadata[:ruby_version] %></p>
+  </div>
+  <div class="bg-white rounded-lg shadow p-4">
+    <p class="text-xs text-gray-500">Rails Version</p>
+    <p class="text-sm font-bold text-gray-800 mt-1"><%= @metadata[:rails_version] %></p>
+  </div>
+  <div class="bg-white rounded-lg shadow p-4">
+    <p class="text-xs text-gray-500">PID</p>
+    <p class="text-sm font-bold text-gray-800 mt-1"><%= @metadata[:pid] %></p>
+  </div>
+</div>
+
+<input type="text" id="env-search" placeholder="Filter by name or value..."
+       class="w-full px-4 py-2 mb-4 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+       oninput="filterEnvVars()">
+
+<p class="text-xs text-gray-400 mb-2"><span id="env-count"><%= @env_vars.size %></span> env vars</p>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+  <table id="env-table" class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Value</th>
+        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase w-16"></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <% @env_vars.each do |key, value| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-3 text-sm font-mono text-gray-700 whitespace-nowrap"><%= key %></td>
+          <td class="px-6 py-3 text-sm font-mono text-gray-600 break-all max-w-xl"><%= value %></td>
+          <td class="px-6 py-3 text-right">
+            <button type="button"
+                    onclick="copyValue(this, '<%= j(value) %>')"
+                    class="px-2 py-1 text-xs text-gray-500 bg-gray-100 rounded hover:bg-gray-200"
+                    title="Copy value">
+              Copy
+            </button>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function filterEnvVars() {
+    var query = document.getElementById('env-search').value.toLowerCase();
+    var rows = document.querySelectorAll('#env-table tbody tr');
+    var visible = 0;
+    rows.forEach(function(row) {
+      var cells = row.querySelectorAll('td');
+      var name = cells[0].textContent.toLowerCase();
+      var value = cells[1].textContent.toLowerCase();
+      var match = name.includes(query) || value.includes(query);
+      row.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    document.getElementById('env-count').textContent = visible;
+  }
+
+  function copyValue(button, value) {
+    navigator.clipboard.writeText(value).then(function() {
+      var original = button.textContent;
+      button.textContent = 'Copied!';
+      button.classList.remove('text-gray-500', 'bg-gray-100');
+      button.classList.add('text-green-700', 'bg-green-100');
+      setTimeout(function() {
+        button.textContent = original;
+        button.classList.remove('text-green-700', 'bg-green-100');
+        button.classList.add('text-gray-500', 'bg-gray-100');
+      }, 1500);
+    });
+  }
+</script>
